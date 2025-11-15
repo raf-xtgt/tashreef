@@ -44,7 +44,7 @@
     - Apply overlay_color and overlay_opacity to overlay rect
     - _Requirements: 2.4, 4.3, 4.4, 4.5_
 
-- [ ] 5. Integrate card generator into pattern service
+- [x] 5. Integrate card generator into pattern service
   - Import `generate_card` function in `backend/app/service/pattern_service.py`
   - Call `generate_card()` after `process_fractal_request()` completes
   - Pass pattern SVG, user prompt, pattern config, and inference service
