@@ -72,7 +72,7 @@ def process_fractal_request(config: LSystemConfig) -> str:
     # 1. Call the "math engine" to get the raw components
     svg_components = generate_l_system_components(config)
     
-    # 2. Call the "presentation" function to build the final SVG string
+    # 2. Call the "presentation" function to build the SVG string with the repeating pattern
     final_svg_string = build_e_card_svg(svg_components)
     
     # 3. Create the client-side-ready response object
