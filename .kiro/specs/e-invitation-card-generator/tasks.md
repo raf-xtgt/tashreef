@@ -52,7 +52,7 @@
   - Update return value to include CardResponse JSON
   - _Requirements: 3.1, 3.2, 3.3, 3.5_
 
-- [ ] 6. Update API response structure
+- [x] 6. Update API response structure
   - Modify `generate_draft_card()` endpoint in `backend/app/routers/pattern/pattern_controller.py`
   - Return the CardResponse JSON from pattern service
   - Update endpoint documentation with new response structure
