@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Dict
+from typing import Dict, Optional
 
 class LSystemPatternParams(BaseModel):
     """Parameters for the L-System generation algorithm."""
@@ -53,4 +53,81 @@ class LSystemConfig(BaseModel):
     style: StyleParams = Field(
         ...,
         description="The visual style for the resulting SVG."
+    )
+
+class ColorScheme(BaseModel):
+    """Color palette for the invitation card."""
+    primary_text_color: str = Field(
+        ...,
+        description="Hex color code for main text elements (e.g., event title).",
+        example="#FFFFFF"
+    )
+    secondary_text_color: str = Field(
+        ...,
+        description="Hex color code for secondary text elements (e.g., subtitle, details).",
+        example="#F0F0F0"
+    )
+    overlay_color: str = Field(
+        ...,
+        description="Hex color code for the semi-transparent overlay behind text.",
+        example="#000000"
+    )
+    overlay_opacity: float = Field(
+        ...,
+        description="Opacity value for the overlay (0.0 to 1.0).",
+        ge=0.0,
+        le=1.0,
+        example=0.4
+    )
+
+class ContentConfig(BaseModel):
+    """AI-generated content and styling for the e-invitation card."""
+    event_title: str = Field(
+        ...,
+        description="The main title of the event (e.g., 'You're Invited', 'Together with their families').",
+        example="You're Invited"
+    )
+    event_subtitle: str = Field(
+        ...,
+        description="A subtitle or secondary message for the event.",
+        example="Join us for a celebration"
+    )
+    date_placeholder: str = Field(
+        ...,
+        description="Placeholder text for the event date.",
+        example="Saturday, December 25th, 2025"
+    )
+    time_placeholder: str = Field(
+        ...,
+        description="Placeholder text for the event time.",
+        example="6:00 PM onwards"
+    )
+    venue_placeholder: str = Field(
+        ...,
+        description="Placeholder text for the event venue.",
+        example="The Grand Ballroom"
+    )
+    rsvp_text: str = Field(
+        ...,
+        description="Text for RSVP instructions.",
+        example="RSVP by December 15th"
+    )
+    color_scheme: ColorScheme = Field(
+        ...,
+        description="The color palette for text and overlay elements."
+    )
+
+class CardResponse(BaseModel):
+    """Complete response containing the final card SVG and all configuration data."""
+    card_svg: str = Field(
+        ...,
+        description="The complete SVG string for the final e-invitation card."
+    )
+    pattern_config: LSystemConfig = Field(
+        ...,
+        description="The L-System configuration used to generate the pattern."
+    )
+    content_config: ContentConfig = Field(
+        ...,
+        description="The AI-generated content and styling configuration."
     )

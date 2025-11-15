@@ -12,7 +12,7 @@ router = APIRouter(
 pattern_service = PatternService()
 
 @router.post("/generate")
-async def create_session(
+async def generate_draft_card(
     payload: TashreefPrompt,
     dbConn: AsyncSession = Depends(get_db)
 ):
