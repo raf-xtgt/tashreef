@@ -6,13 +6,13 @@
   - Include proper field descriptions, examples, and validation rules
   - _Requirements: 1.2, 1.3, 5.1, 5.2, 5.5_
 
-- [ ] 2. Implement content generation prompt system
+- [x] 2. Implement content generation prompt system
   - Create CONTENT_SYSTEM_PROMPT constant in `backend/app/engine/fractal_engine/prompts.py`
   - Include instructions for analyzing event type, tone, and cultural context
   - Define expected output format and examples for different event types
   - _Requirements: 1.1, 4.1, 4.2_
 
-- [ ] 3. Extend inference service for content generation
+- [x] 3. Extend inference service for content generation
   - Add `generate_content_config()` method to `backend/app/inference/inference_service.py`
   - Build specialized prompt combining system prompt and user prompt
   - Use existing `_generate_structured_content()` with ContentConfig schema
