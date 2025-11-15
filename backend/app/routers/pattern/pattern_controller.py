@@ -17,9 +17,9 @@ async def create_session(
     dbConn: AsyncSession = Depends(get_db)
 ):
     """
-    Create a new session.
+    Starter api to generate the svg patterns.
     """
     user_prompt = payload.text
     await pattern_service.generate_pattern(user_prompt, dbConn)
-    print("generate session")
+    print("generate pattern")
 

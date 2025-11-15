@@ -6,7 +6,7 @@ import json
 class InferenceService:
     def __init__(self):
         self.generative_model = GenerativeModel(
-             "gemini-2.0-flash", # Using gemini-2.0-flash as per your example
+             "gemini-2.0-flash", 
         )
 
     async def _generate_structured_content(self, prompt: str, response_model: BaseModel):
