@@ -209,3 +209,4 @@ __marimo__/
 misc_files
 backend/webserviceVenv
 backend/app/gcp_creds.json
+backend/sample_patterns
