@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Backend __init__.py Auto-Import",
+  "description": "Automatically updates or creates __init__.py files with proper imports whenever a new Python file is added to the /backend/app directory or its subdirectories",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "backend/app/**/*.py"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new Python file has been added in the backend/app directory. Please:\n\n1. Identify the directory where the new file was added\n2. Check if an __init__.py file exists in that directory\n3. If __init__.py doesn't exist, create it\n4. Add the appropriate import statement for the new file to the __init__.py\n5. Follow Python best practices for __init__.py imports (import classes, functions, or use relative imports as appropriate)\n6. Ensure the import statement follows the existing import style in the codebase\n\nFor example, if a new file `backend/app/service/new_service.py` with a class `NewService` is added, update `backend/app/service/__init__.py` to include:\n```python\nfrom .new_service import NewService\n```\n\nMake sure to analyze the new file's contents to determine what should be imported (classes, functions, constants, etc.)."
+  }
+}
