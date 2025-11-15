@@ -19,26 +19,26 @@
   - Implement error handling with default ContentConfig fallback
   - _Requirements: 1.1, 1.4, 5.3, 5.4_
 
-- [ ] 4. Implement core card generator function
-  - [ ] 4.1 Create `generate_card()` async function in `backend/app/engine/fractal_engine/card_generator.py`
+- [x] 4. Implement core card generator function
+  - [x] 4.1 Create `generate_card()` async function in `backend/app/engine/fractal_engine/card_generator.py`
     - Accept pattern_svg, user_prompt, pattern_config, and inference_service as parameters
     - Return CardResponse object with complete card SVG
     - _Requirements: 2.1, 3.2_
   
-  - [ ] 4.2 Implement content config generation logic
+  - [x] 4.2 Implement content config generation logic
     - Call `inference_service.generate_content_config()` with user prompt
     - Handle inference failures with default ContentConfig
     - Log AI response and any errors
     - _Requirements: 1.1, 1.5_
   
-  - [ ] 4.3 Implement SVG composition logic
+  - [x] 4.3 Implement SVG composition logic
     - Extract pattern defs and rect elements from pattern_svg
     - Build semi-transparent overlay rect with color scheme
     - Create text elements with proper positioning and styling
     - Compose final SVG with correct layer ordering
     - _Requirements: 2.2, 2.3, 2.4, 2.5_
   
-  - [ ] 4.4 Apply color scheme to SVG elements
+  - [x] 4.4 Apply color scheme to SVG elements
     - Apply primary_text_color to main text elements
     - Apply secondary_text_color to secondary text elements
     - Apply overlay_color and overlay_opacity to overlay rect
