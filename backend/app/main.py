@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 from fastapi.middleware.cors import CORSMiddleware
 import vertexai
+from .routers.pattern import pattern_controller
 
 
 load_dotenv()
@@ -33,6 +34,7 @@ app.add_middleware(
 
 
 url_prefix = "/ts"
+app.include_router(pattern_controller.router, prefix=url_prefix)
 
 
 # A simple root endpoint
