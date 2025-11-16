@@ -2,89 +2,100 @@
 inclusion: always
 ---
 
-# Project Structure & Organization
+# Project Structure & Architecture
 
 ## Directory Layout
 
 ```
-backend/app/              - FastAPI application
-├── main.py              - App entry point, CORS, router registration
-├── config/              - Configuration (database, credentials)
-├── routers/             - HTTP endpoints (like Flask Blueprints)
+backend/app/
+├── main.py              - Entry point, CORS, router registration
+├── config/              - Database, credentials
+├── routers/             - HTTP endpoints
 ├── service/             - Business logic orchestration
-├── inference/           - AI/ML integration (Vertex AI)
+├── inference/           - Vertex AI integration
 ├── engine/              - Mathematical pattern generators
-│   └── fractal_engine/  - L-System fractal implementation
-│       ├── engine.py    - Core algorithm (turtle graphics)
-│       ├── processor.py - SVG post-processing (tiling, wrapping)
-│       ├── models.py    - Pydantic configuration models
-│       └── prompts.py   - LLM prompt templates
-└── model/               - Shared data models
+│   └── fractal_engine/  - L-System implementation
+│       ├── engine.py    - Core algorithm
+│       ├── processor.py - SVG post-processing
+│       ├── models.py    - Pydantic configs
+│       └── prompts.py   - LLM templates
+└── model/               - Shared Pydantic models
 
-frontend/                - Frontend app (minimal/in development)
+frontend/tashreef-app/   - Next.js app
+├── src/app/
+│   ├── page.tsx         - Root page (home)
+│   ├── layout.tsx       - Root layout
+│   ├── layoutClient.tsx - Client-side layout wrapper
+│   ├── globals.css      - Global styles
+│   ├── components/      - React components
+│   │   ├── auth/        - Authentication components
+│   │   ├── eCardEditor/ - E-card editor components
+│   │   │   ├── cardDisplay/  - Card preview/display
+│   │   │   ├── cardPrompt/   - Prompt input interface
+│   │   │   └── cardTools/    - Editor tools/controls
+│   │   └── home/        - Home page components
+│   ├── context/         - React context providers
+│   │   ├── stateController.tsx - Global state management
+│   │   └── userContext.tsx     - User authentication state
+│   ├── eCardEditor/     - E-card editor page
+│   │   └── page.tsx     - Editor page route
+│   ├── models/          - TypeScript data models
+│   │   └── cardPromptModel.tsx
+│   └── services/        - API service layer
+│       └── inferenceService.tsx - Backend API calls
+└── public/              - Static assets
 ```
 
-## Architectural Layers (Request Flow)
+## Request Flow (Strict Layer Order)
 
 ```
-HTTP Request
-    ↓
-1. Router Layer (routers/) - Parse request, validate input
-    ↓
-2. Service Layer (service/) - Orchestrate business logic
-    ↓
-3. Inference Layer (inference/) - Call LLM for parameters
-    ↓
-4. Engine Layer (engine/) - Generate pattern via math
-    ↓
-5. Response - Return SVG
+HTTP Request → Router → Service → Inference → Engine → SVG Response
 ```
 
-## Layer Responsibilities
+## Layer Responsibilities (Do Not Mix)
 
-### Routers (`routers/`)
-- HTTP endpoint definitions
+**Routers** (`routers/`)
+- HTTP endpoints only
 - Request/response serialization
-- No business logic
+- Zero business logic
 
-### Services (`service/`)
-- Coordinate between layers
-- Business logic and workflow
-- Error handling and validation
+**Services** (`service/`)
+- Orchestrate workflow
+- Business logic
+- Error handling
 
-### Inference (`inference/`)
-- Vertex AI / Gemini API calls
+**Inference** (`inference/`)
+- Vertex AI / Gemini calls
 - Prompt engineering
-- Response parsing
+- Parse LLM responses
 
-### Engines (`engine/`)
+**Engines** (`engine/`)
 - Pure mathematical computation
 - No I/O, no external calls
-- Deterministic pattern generation
+- Deterministic, testable
 
-### Models (`model/`)
-- Pydantic models for validation
+**Models** (`model/`)
+- Pydantic validation models
 - Shared data structures
 
-## File Naming Conventions
+## Naming Conventions
 
 - Services: `*_service.py` (e.g., `pattern_service.py`)
-- Routers: Organized by domain in subdirectories
-- Engines: Each type in own subdirectory with standard files (`engine.py`, `processor.py`, `models.py`, `prompts.py`)
+- Routers: Domain-based subdirectories
+- Engines: Subdirectory with `engine.py`, `processor.py`, `models.py`, `prompts.py`
 
-## Configuration Files
+## Key Files
 
-- `backend/.env` - Environment variables (GCP_PROJECT_ID, GCP_REGION)
+- `backend/.env` - Environment variables
 - `backend/gcp_creds.json` - Service account credentials
 - `backend/requirements.txt` - Python dependencies
 - `backend/sample_patterns/` - Generated SVG examples
 
 ## Adding New Pattern Engines
 
-When creating a new pattern type:
-1. Create subdirectory under `engine/` (e.g., `engine/parametric_engine/`)
-2. Implement standard files:
-   - `engine.py` - Core generation algorithm
+1. Create `engine/<engine_name>/` directory
+2. Implement required files:
+   - `engine.py` - Core algorithm
    - `processor.py` - SVG post-processing
    - `models.py` - Pydantic config models
    - `prompts.py` - LLM prompt templates

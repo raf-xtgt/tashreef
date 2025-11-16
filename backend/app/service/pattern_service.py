@@ -9,7 +9,7 @@ import json
 
 service = InferenceService()
 class PatternService:
-    async def generate_pattern(self, user_prompt:str ,  db: AsyncSession) :
+    async def generate_pattern(self, user_prompt:str ,  db: AsyncSession) -> CardResponse:
 
         ai_config = await service._generate_structured_content(user_prompt, LSystemConfig)
         if ai_config and isinstance(ai_config, LSystemConfig):
@@ -17,10 +17,6 @@ class PatternService:
             
             # Pass the config to the FractalProcessor to generate pattern SVG
             client_ready_json = process_fractal_request(ai_config)
-            
-            print("\n--- Client-Ready JSON Output ---")
-            print(client_ready_json)
-            print("--------------------------------")
             
             # Parse the JSON to extract the pattern SVG
             pattern_data = json.loads(client_ready_json)
@@ -41,8 +37,8 @@ class PatternService:
                 f.write(card_response.card_svg)
             print(f"\n✅  Saved final card SVG to: {output_filename}")
             
-            # Return CardResponse JSON
-            return card_response.model_dump_json(indent=2)
+            # Return CardResponse
+            return card_response
             
         elif ai_config:
             print(f"\nAI returned an unexpected object type: {type(ai_config)}")

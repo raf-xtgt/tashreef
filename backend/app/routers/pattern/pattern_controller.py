@@ -62,8 +62,8 @@ async def generate_draft_card(
         }
     """
     user_prompt = payload.text
-    card_response_json = await pattern_service.generate_pattern(user_prompt, dbConn)
-    
+    card_response = await pattern_service.generate_pattern(user_prompt, dbConn)
+    card_response_json = card_response.model_dump_json(indent=2)
     # Parse and return as JSON response
     if card_response_json:
         return JSONResponse(content=json.loads(card_response_json))

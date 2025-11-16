@@ -1,29 +1,30 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { FaSearch, FaFolderOpen, FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { useUser } from '@/app/context/userContext';
 import { useStateController } from '@/app/context/stateController';
 import CardPrompt from '../cardPrompt/cardPrompt';
 import { InferenceService } from '@/app/services/inferenceService';
-import { CardPromptModel } from '@/app/models/cardPromptModel';
 
 export default function CardTools() {
-  const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
-
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const { user } = useUser();
   const { setCardResponse } = useStateController();
 
-  // Load Sessions on component mount
   useEffect(() => {
-
-  }, [user?.guid]);
-
-
+    // Clear messages after 5 seconds
+    if (successMessage || error) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+        setError(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, error]);
 
   const handleEInvitationCardGeneration = async (userPayload: any) => {
     try {
@@ -31,18 +32,15 @@ export default function CardTools() {
       setError(null);
       setSuccessMessage(null);
 
-      console.log("userPayload", userPayload)
-      let payload = {
-        "text": userPayload.description
-      }
+      const payload = {
+        text: userPayload.description
+      };
       const eInvitationDraftResponse = await InferenceService.generateEInvitationCard(payload);
 
-      // Store response in state controller
       setCardResponse(eInvitationDraftResponse);
       setSuccessMessage('Card generated successfully!');
-
     } catch (err) {
-      setError('Failed to generate card');
+      setError('Failed to generate card. Please try again.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -50,57 +48,44 @@ export default function CardTools() {
   };
 
   return (
-    <div className="bg-gray-50 rounded-xl p-4 h-full flex flex-col">
-      <div className="h-full flex flex-col">
-        {/* Loading Message */}
+    <div className="p-6">
+      {/* Status Messages */}
+      <div className="space-y-3 mb-6">
         {loading && (
-          <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-blue-700">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-700"></div>
-            <span>Processing Card...</span>
+          <div className="p-4 bg-blue-50 border border-blue-300 rounded-lg flex items-center gap-3">
+            <div className="flex-shrink-0">
+              <div className="animate-spin rounded-full h-5 w-5 border-2 border-slate-600 border-t-transparent"></div>
+            </div>
+            <div>
+              <p className="font-medium text-slate-800">Generating your card...</p>
+              <p className="text-sm text-slate-600">This may take a few moments</p>
+            </div>
           </div>
         )}
 
-        {/* Success Message */}
         {successMessage && (
-          <div className="mb-3 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2 text-green-700">
-            <FaCheckCircle />
-            <span>{successMessage}</span>
+          <div className="p-4 bg-emerald-50 border border-emerald-300 rounded-lg flex items-center gap-3">
+            <FaCheckCircle className="text-emerald-600 text-xl flex-shrink-0" />
+            <div>
+              <p className="font-medium text-slate-800">{successMessage}</p>
+              <p className="text-sm text-slate-600">Check the preview panel</p>
+            </div>
           </div>
         )}
 
-
-        {/* Channels Section (Sessions Dropdown) */}
-        <div className="pb-4 border-b border-gray-200">
-          <h2 className="font-bold text-lg mb-3">
-            <div className="flex items-center gap-2">
-              <CardPrompt
-                onSave={handleEInvitationCardGeneration}
-              ></CardPrompt>
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-300 rounded-lg flex items-center gap-3">
+            <FaExclamationCircle className="text-red-600 text-xl flex-shrink-0" />
+            <div>
+              <p className="font-medium text-slate-800">{error}</p>
+              <p className="text-sm text-slate-600">Please check your input and try again</p>
             </div>
-
-
-          </h2>
-
-          {/* Search input */}
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaSearch className="text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search sessions..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            />
           </div>
-
-        </div>
-
-
+        )}
       </div>
 
+      {/* Card Prompt Form */}
+      <CardPrompt onSave={handleEInvitationCardGeneration} loading={loading} />
     </div>
-
   );
 }

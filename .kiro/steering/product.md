@@ -2,33 +2,33 @@
 inclusion: always
 ---
 
-# Tashreef: AI-Powered Geometric Pattern Generation
+# Tashreef Product Context
 
-## Product Purpose
+## What This Application Does
 
-Tashreef generates e-invitation cards with intricate mathematical patterns inspired by ancient architectural designs (mosques, churches, palaces). The system uses **mathematical equations**, not image generation AI, to create precise SVG-based geometric patterns.
+Tashreef generates e-invitation cards with mathematical patterns inspired by ancient architectural designs. The system uses **mathematical computation**, not generative AI images, to create precise SVG geometric patterns.
 
-## Core Architecture
+## Core Approach: AI + Math Hybrid
 
-**AI + Math Hybrid Approach**: LLM generates mathematical parameters → Mathematical engines compute patterns → SVG output
+LLM (Gemini 2.0 Flash) → JSON parameters → Mathematical engine → SVG pattern
 
-### Pattern Generation Engines
+## Pattern Engines Available
 
 1. **Parametric Equations** - Spirograph-style curves
-2. **L-Systems (Fractal)** - Recursive fractal patterns using turtle graphics
-3. **Tessellations** - Islamic geometric tiling patterns
+2. **L-Systems (Fractal)** - Recursive patterns via turtle graphics
+3. **Tessellations** - Islamic geometric tiling
 
-## Generation Pipeline
+## Generation Flow
 
-1. User submits natural language prompt for e-invitation design
-2. Gemini 2.0 Flash LLM interprets prompt → outputs JSON configuration with mathematical parameters
-3. Appropriate engine generates base pattern SVG from configuration
-4. Pattern processor creates repeating/tiled backgrounds
-5. Final SVG card rendered with pattern background + placeholder content
+1. User provides natural language prompt describing desired e-invitation design
+2. LLM interprets prompt and outputs JSON with mathematical parameters
+3. Engine generates base pattern SVG from parameters
+4. Processor creates tiled/repeating backgrounds
+5. Final SVG card combines pattern background with content placeholders
 
-## Key Constraints
+## Critical Constraints
 
-- Output format is always SVG (vector graphics)
-- Patterns are mathematically generated, not AI-image-generated
-- Client-side customization: dimensions, colors, text content
-- No raster images - pure geometric computation
+- **Output is always SVG** - vector graphics only, no raster images
+- **Patterns are mathematically generated** - engines use equations, not AI image generation
+- **Customization happens client-side** - dimensions, colors, text content
+- **No external image assets** - pure geometric computation
