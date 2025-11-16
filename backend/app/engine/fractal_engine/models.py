@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
+from app.engine.parametric_engine.models import ParametricConfig
+from app.engine.tessellation_engine.models import TessellationConfig
 
 class LSystemPatternParams(BaseModel):
     """Parameters for the L-System generation algorithm."""
@@ -123,7 +125,7 @@ class CardResponse(BaseModel):
         ...,
         description="The complete SVG string for the final e-invitation card."
     )
-    pattern_config: LSystemConfig = Field(
+    pattern_config: Union[LSystemConfig, ParametricConfig, TessellationConfig] = Field(
         ...,
         description="The L-System configuration used to generate the pattern."
     )
