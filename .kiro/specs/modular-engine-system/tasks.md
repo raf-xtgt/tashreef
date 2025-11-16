@@ -1,6 +1,6 @@
 # Implementation Plan
 
-- [ ] 1. Create engine type models and enums
+- [x] 1. Create engine type models and enums
   - Create `backend/app/model/prompt.py` with EngineTypeEnum and EngineChoice Pydantic models
   - Define three engine types: l_system, parametric, tessellation
   - Add proper field descriptions and validation
