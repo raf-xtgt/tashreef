@@ -8,23 +8,26 @@ interface NavItem {
   route: string;
 }
 
-interface StateControllerState {
+interface CardResponse {
+  card_svg: string;
+  pattern_config: any;
+  content_config: any;
+}
 
-  // new
+interface StateControllerState {
   navItems: NavItem[];
   setNavItems: (items: NavItem[]) => void;
-
-
+  cardResponse: CardResponse | null;
+  setCardResponse: (response: CardResponse | null) => void;
 }
 
 const StateControllerContext = createContext<StateControllerState | undefined>(undefined);
 
 export const StateControllerProvider = ({ children }: { children: ReactNode }) => {
   const [sessionData, setSessionData] = useState<any>(null);
-
-  //new
   const [navItems, setNavItems] = useState<NavItem[]>([]);
-  // Load session data when currentSessionGuid changes
+  const [cardResponse, setCardResponse] = useState<CardResponse | null>(null);
+
   useEffect(() => {
     const loadSessionData = async () => {
 
@@ -35,10 +38,10 @@ export const StateControllerProvider = ({ children }: { children: ReactNode }) =
 
   return (
     <StateControllerContext.Provider value={{
-      // new
       navItems,
       setNavItems,
-      
+      cardResponse,
+      setCardResponse,
     }}>
       {children}
     </StateControllerContext.Provider>

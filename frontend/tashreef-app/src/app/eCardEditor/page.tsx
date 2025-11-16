@@ -1,5 +1,6 @@
 "use client";
 
+import CardDisplay from "../components/eCardEditor/cardDisplay/cardDisplay";
 import CardTools from "../components/eCardEditor/cardTools/cardTools";
 
 export default function CopilotWorkflow() {
@@ -18,7 +19,7 @@ export default function CopilotWorkflow() {
 
         {/* Main E-Invitation card display */}
         <div className="hidden lg:block w-3/5 bg-white rounded-2xl shadow-lg p-1 border border-gray-200">
-          <h1>SVG appears here</h1>
+          <CardDisplay></CardDisplay>
         </div>
 
         {/* Mobile Editor Placeholder */}

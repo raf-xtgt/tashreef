@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { FaSearch, FaFolderOpen, FaCheckCircle} from 'react-icons/fa';
+import { FaSearch, FaFolderOpen, FaCheckCircle } from 'react-icons/fa';
 import { useUser } from '@/app/context/userContext';
+import { useStateController } from '@/app/context/stateController';
 import CardPrompt from '../cardPrompt/cardPrompt';
 import { InferenceService } from '@/app/services/inferenceService';
 import { CardPromptModel } from '@/app/models/cardPromptModel';
@@ -15,15 +16,16 @@ export default function CardTools() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const { user } = useUser();
+  const { setCardResponse } = useStateController();
 
   // Load Sessions on component mount
   useEffect(() => {
-    
+
   }, [user?.guid]);
 
 
 
-  const handleEInvitationCardGeneration = async (userPayload:any ) => {
+  const handleEInvitationCardGeneration = async (userPayload: any) => {
     try {
       setLoading(true);
       setError(null);
@@ -31,13 +33,16 @@ export default function CardTools() {
 
       console.log("userPayload", userPayload)
       let payload = {
-        "text":userPayload.description
+        "text": userPayload.description
       }
       const eInvitationDraftResponse = await InferenceService.generateEInvitationCard(payload);
-      
-      
+
+      // Store response in state controller
+      setCardResponse(eInvitationDraftResponse);
+      setSuccessMessage('Card generated successfully!');
+
     } catch (err) {
-      setError('Failed to create session');
+      setError('Failed to generate card');
       console.error(err);
     } finally {
       setLoading(false);
@@ -51,7 +56,7 @@ export default function CardTools() {
         {loading && (
           <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-blue-700">
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-700"></div>
-            <span>Retrieving Sessions...</span>
+            <span>Processing Card...</span>
           </div>
         )}
 
@@ -70,7 +75,7 @@ export default function CardTools() {
             <div className="flex items-center gap-2">
               <CardPrompt
                 onSave={handleEInvitationCardGeneration}
-              ></CardPrompt> 
+              ></CardPrompt>
             </div>
 
 
