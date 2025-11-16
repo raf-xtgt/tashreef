@@ -108,7 +108,8 @@ def _compose_card_svg(pattern_svg: str, content_config: ContentConfig) -> str:
     
     # Extract pattern defs and rect from the pattern_svg
     defs_match = re.search(r'<defs>(.*?)</defs>', pattern_svg, re.DOTALL)
-    pattern_rect_match = re.search(r'<rect[^>]*fill="url\(#fractal-pattern\)"[^>]*/>', pattern_svg)
+    # Match any pattern rect (fractal-pattern, tessellation-pattern, parametric-pattern, etc.)
+    pattern_rect_match = re.search(r'<rect[^>]*fill="url\([^)]+\)"[^>]*/>', pattern_svg)
     
     if not defs_match or not pattern_rect_match:
         print("⚠ Warning: Could not extract pattern elements from SVG")
