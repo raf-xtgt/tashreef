@@ -10,7 +10,8 @@ class InferenceService:
 
     async def _generate_structured_content(self, prompt: str, response_model: BaseModel):
         """Calls the LLM with a prompt and a JSON schema, returns a Pydantic object."""
-        print("Generating structured content...")
+        # print(f"Generating structured content for model: {response_model.__name__}")
+        # print(f"Schema: {response_model.model_json_schema()}")
         response = None
         try:
             
@@ -27,15 +28,22 @@ class InferenceService:
             print(response_text)
             print("------------------------")
             
-            return response_model.model_validate_json(response_text)
+            # Validate and return
+            validated = response_model.model_validate_json(response_text)
+            print(f"✅ Successfully validated {response_model.__name__}")
+            return validated
         
         except Exception as e:
-            print(f"Error generating structured content: {e}")
-            if response and hasattr(response, 'prompt_feedback'):
-                 print(f"Prompt Feedback: {response.prompt_feedback}")
-            if response and hasattr(response, 'candidates') and response.candidates:
-                 print(f"Finish Reason: {response.candidates[0].finish_reason}")
-                 print(f"Safety Ratings: {response.candidates[0].safety_ratings}")
+            print(f"❌ Error generating structured content: {e}")
+            print(f"   Model: {response_model.__name__}")
+            if response:
+                if hasattr(response, 'prompt_feedback'):
+                    print(f"   Prompt Feedback: {response.prompt_feedback}")
+                if hasattr(response, 'candidates') and response.candidates:
+                    print(f"   Finish Reason: {response.candidates[0].finish_reason}")
+                    print(f"   Safety Ratings: {response.candidates[0].safety_ratings}")
+                if hasattr(response, 'text'):
+                    print(f"   Raw Response Text: {response.text[:500]}")
             return None
 
     async def generate_content_config(self, user_prompt: str):

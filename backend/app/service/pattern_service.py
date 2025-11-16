@@ -49,17 +49,14 @@ class PatternService:
             print(f"📋 Using config model: {config_model.__name__}")
 
             # Step 4: Generate pattern config via AI
-            try:
-                ai_config = await service._generate_structured_content(full_prompt, config_model)
-                if not ai_config:
-                    print("\n❌ Failed to generate AI config.")
-                    raise ValueError("AI failed to generate valid configuration")
-                
-                print("\n✅ Successfully parsed AI config.")
-            except Exception as e:
-                print(f"❌ Pattern config generation failed for engine '{engine_type}': {str(e)}")
-                raise ValueError(f"Failed to generate pattern configuration: {str(e)}")
             
+            ai_config = await service._generate_structured_content(full_prompt, config_model)
+            if not ai_config:
+                print("\n❌ Failed to generate AI config.")
+                raise ValueError("AI failed to generate valid configuration")
+                
+            print("\n✅ Successfully parsed AI config.")
+           
             # Step 5: Process pattern using selected processor function
             try:
                 client_ready_json = processor_func(ai_config)

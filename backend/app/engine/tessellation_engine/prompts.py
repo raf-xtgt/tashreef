@@ -69,6 +69,21 @@ Read the user's prompt. Select appropriate tile shape, size, and colors that
 match their creative description. Ensure the color palette complements the 
 event type.
 
+**REQUIRED FIELDS:**
+- `engine_type`: Must be "tessellation"
+- `parameters`: Object containing:
+  - `tile_shape`: One of "square", "hexagon", "triangle", "diamond"
+  - `tile_size`: Number between 50-200
+  - `color_palette`: Array of 2-5 hex color codes (e.g., ["#4682B4", "#87CEEB"])
+- `style`: Object containing:
+  - `stroke`: Hex color for tile borders (e.g., "#FFFFFF")
+  - `stroke_width`: Number between 0.5-10 (optional, defaults to 1.0)
+
+**OPTIONAL FIELDS:**
+- `parameters.rotation`: Number 0-360 (defaults to 0)
+- `parameters.spacing`: Number 0-10 (defaults to 0)
+- `style.fill`: Not used for tessellations (color_palette is used instead)
+
 Respond ONLY with the JSON object. Do not include any other text, markdown, 
 or conversation.
 """

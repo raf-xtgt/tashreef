@@ -40,20 +40,20 @@ class TessellationParams(BaseModel):
     color_palette: List[str] = Field(
         ...,
         description="Array of 2-5 hex colors for alternating tiles.",
-        min_length=2,
-        max_length=5,
+        min_items=2,
+        max_items=5,
         example=["#4682B4", "#87CEEB", "#B0E0E6"]
     )
 
 class StyleParams(BaseModel):
     """Styling information for the final SVG."""
     fill: str = Field(
-        ...,
-        description="Fill color (e.g., '#RRGGBB').",
+        default="#4682B4",
+        description="Fill color (e.g., '#RRGGBB'). Not used for tessellations (color_palette is used instead).",
         example="#4682B4"
     )
     stroke: str = Field(
-        ...,
+        default="#FFFFFF",
         description="Stroke color (e.g., '#FFFFFF', '#000000').",
         example="#FFFFFF"
     )
