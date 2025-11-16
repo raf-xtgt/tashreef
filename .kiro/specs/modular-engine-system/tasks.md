@@ -21,14 +21,14 @@
     - Add logging for router decisions and errors
     - _Requirements: 2.3, 2.4, 2.5, 2.6, 3.4, 3.5, 9.1, 9.5_
 
-- [ ] 3. Refactor prompt system for modularity
-  - [ ] 3.1 Extract L-System prompt from system_prompt.py
+- [x] 3. Refactor prompt system for modularity
+  - [x] 3.1 Extract L-System prompt from system_prompt.py
     - Create `backend/app/engine/fractal_engine/prompts.py` if it doesn't exist
     - Move L-System specific instructions to L_SYSTEM_PROMPT constant
     - Keep BASE_PROMPT in `backend/app/prompt/base_prompt.py`
     - _Requirements: 1.1, 1.2, 1.4, 1.5_
   
-  - [ ] 3.2 Create prompt builder utility
+  - [x] 3.2 Create prompt builder utility
     - Create `backend/app/prompt/prompt_builder.py`
     - Implement `build_engine_prompt(engine_type, user_prompt)` function
     - Concatenate base prompt + engine-specific prompt + user prompt
