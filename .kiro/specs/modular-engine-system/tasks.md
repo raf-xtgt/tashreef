@@ -99,21 +99,21 @@
     - Return TessellationResponse with svg_string and config
     - _Requirements: 5.4, 5.5_
 
-- [ ] 6. Integrate router and engines into pattern service
-  - [ ] 6.1 Add router classification to pattern service
+- [x] 6. Integrate router and engines into pattern service
+  - [x] 6.1 Add router classification to pattern service
     - Import `classify_engine` in `backend/app/service/pattern_service.py`
     - Call router at the start of `generate_pattern()` method
     - Log selected engine_type for debugging
     - _Requirements: 7.1, 9.5_
   
-  - [ ] 6.2 Add engine selection logic
+  - [x] 6.2 Add engine selection logic
     - Import prompt_builder and all engine processors
     - Build engine-specific prompt using `build_engine_prompt()`
     - Select appropriate config model based on engine_type
     - Select appropriate processor function based on engine_type
     - _Requirements: 7.2, 7.3_
   
-  - [ ] 6.3 Update pattern generation flow
+  - [x] 6.3 Update pattern generation flow
     - Generate pattern config using selected config model
     - Process pattern using selected processor function
     - Extract pattern SVG from processor response
@@ -121,7 +121,7 @@
     - Maintain backward compatibility with existing l_system flow
     - _Requirements: 7.4, 7.5_
   
-  - [ ] 6.4 Add error handling for engine failures
+  - [x] 6.4 Add error handling for engine failures
     - Add try-catch for router classification failures
     - Add try-catch for pattern generation failures
     - Log errors with engine type and configuration details
