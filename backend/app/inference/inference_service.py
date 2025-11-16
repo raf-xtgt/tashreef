@@ -49,7 +49,7 @@ class InferenceService:
             ContentConfig object with event content and color scheme, or default fallback on error
         """
         from app.engine.fractal_engine.models import ContentConfig, ColorScheme
-        from app.engine.fractal_engine.prompts import CONTENT_SYSTEM_PROMPT
+        from app.prompt.system_prompt import CONTENT_SYSTEM_PROMPT
         
         print(f"Generating content config for prompt: {user_prompt}")
         
