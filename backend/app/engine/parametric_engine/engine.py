@@ -1,7 +1,7 @@
 """Parametric equation engine for generating spirograph-like patterns."""
 import math
 from typing import List, Tuple, Dict, Any
-from .models import ParametricConfig, ParametricParams, EquationTypeEnum
+from .models import ParametricConfig, ParametricParams
 
 def generate_rose_curve(params: ParametricParams) -> List[Tuple[float, float]]:
     """
@@ -127,13 +127,13 @@ def generate_parametric_components(config: ParametricConfig) -> Dict[str, Any]:
     style = config.style
     
     # Generate points based on equation type
-    if params.equation_type == EquationTypeEnum.rose:
+    if params.equation_type == "rose":
         points = generate_rose_curve(params)
-    elif params.equation_type == EquationTypeEnum.lissajous:
+    elif params.equation_type == "lissajous":
         points = generate_lissajous_curve(params)
-    elif params.equation_type == EquationTypeEnum.epitrochoid:
+    elif params.equation_type == "epitrochoid":
         points = generate_epitrochoid_curve(params)
-    elif params.equation_type == EquationTypeEnum.hypotrochoid:
+    elif params.equation_type == "hypotrochoid":
         points = generate_hypotrochoid_curve(params)
     else:
         # Default to rose curve

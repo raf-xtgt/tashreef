@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Literal
 from enum import Enum
 
 class EquationTypeEnum(str, Enum):
@@ -11,7 +11,7 @@ class EquationTypeEnum(str, Enum):
 
 class ParametricParams(BaseModel):
     """Parameters for parametric equation generation."""
-    equation_type: EquationTypeEnum = Field(
+    equation_type: Literal["rose", "lissajous", "epitrochoid", "hypotrochoid"] = Field(
         ...,
         description="The type of parametric equation to use (rose, lissajous, epitrochoid, hypotrochoid).",
         example="rose"
