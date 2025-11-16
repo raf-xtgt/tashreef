@@ -1,5 +1,5 @@
 """Tessellation pattern processor for creating seamless tiling backgrounds."""
-from .models import TessellationConfig, TessellationResponse, TileShapeEnum
+from .models import TessellationConfig, TessellationResponse
 from .engine import generate_tessellation_components
 import json
 import math

@@ -1,17 +1,10 @@
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Literal
 from enum import Enum
-
-class TileShapeEnum(str, Enum):
-    """Available tessellation tile shapes."""
-    square = "square"
-    hexagon = "hexagon"
-    triangle = "triangle"
-    diamond = "diamond"
 
 class TessellationParams(BaseModel):
     """Parameters for tessellation pattern generation."""
-    tile_shape: TileShapeEnum = Field(
+    tile_shape: Literal["square", "hexagon", "triangle", "diamond"] = Field(
         ...,
         description="The shape of the repeating tile (square, hexagon, triangle, diamond).",
         example="hexagon"

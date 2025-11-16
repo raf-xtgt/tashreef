@@ -1,7 +1,7 @@
 """Tessellation engine for generating geometric tiling patterns."""
 import math
 from typing import List, Tuple, Dict, Any
-from .models import TessellationConfig, TessellationParams, TileShapeEnum
+from .models import TessellationConfig, TessellationParams
 
 def generate_square_tile(params: TessellationParams) -> str:
     """
@@ -106,13 +106,13 @@ def generate_tessellation_components(config: TessellationConfig) -> Dict[str, An
     style = config.style
     
     # Generate tile geometry based on shape
-    if params.tile_shape == TileShapeEnum.square:
+    if params.tile_shape == "square":
         tile_path = generate_square_tile(params)
-    elif params.tile_shape == TileShapeEnum.hexagon:
+    elif params.tile_shape == "hexagon":
         tile_path = generate_hexagon_tile(params)
-    elif params.tile_shape == TileShapeEnum.triangle:
+    elif params.tile_shape == "triangle":
         tile_path = generate_triangle_tile(params)
-    elif params.tile_shape == TileShapeEnum.diamond:
+    elif params.tile_shape == "diamond":
         tile_path = generate_diamond_tile(params)
     else:
         # Default to square
@@ -121,7 +121,7 @@ def generate_tessellation_components(config: TessellationConfig) -> Dict[str, An
     print("Tessellation components generated.")
     return {
         "tile_path": tile_path,
-        "tile_shape": params.tile_shape.value,
+        "tile_shape": params.tile_shape,
         "tile_size": params.tile_size,
         "rotation": params.rotation,
         "spacing": params.spacing,
