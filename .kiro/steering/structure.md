@@ -1,63 +1,92 @@
-# Project Structure
+---
+inclusion: always
+---
 
-## Root Layout
+# Project Structure & Organization
 
-```
-/backend          - Python FastAPI backend application
-/frontend         - Frontend application (minimal/empty)
-```
-
-## Backend Organization
-
-### Core Application (`backend/app/`)
+## Directory Layout
 
 ```
-app/
-├── main.py                    - FastAPI application entry point, CORS, router registration
-├── config/                    - Configuration modules
-│   └── db_config.py          - Database connection configuration
-├── routers/                   - API route controllers (like Flask Blueprints)
-│   └── pattern/              - Pattern generation endpoints
-├── service/                   - Business logic layer
-│   └── pattern_service.py    - Pattern generation orchestration
-├── inference/                 - AI/ML integration layer
-│   └── inference_service.py  - Vertex AI and Gemini model interactions
-├── engine/                    - Mathematical computation engines
-│   └── fractal_engine/       - L-System fractal pattern generation
-│       ├── engine.py         - Core L-System algorithm and turtle graphics
-│       ├── processor.py      - SVG pattern processing and wrapping
-│       ├── models.py         - Pydantic models for pattern configurations
-│       └── prompts.py        - AI prompt templates
-└── model/                     - Data models
-    └── prompt.py             - Prompt-related models
+backend/app/              - FastAPI application
+├── main.py              - App entry point, CORS, router registration
+├── config/              - Configuration (database, credentials)
+├── routers/             - HTTP endpoints (like Flask Blueprints)
+├── service/             - Business logic orchestration
+├── inference/           - AI/ML integration (Vertex AI)
+├── engine/              - Mathematical pattern generators
+│   └── fractal_engine/  - L-System fractal implementation
+│       ├── engine.py    - Core algorithm (turtle graphics)
+│       ├── processor.py - SVG post-processing (tiling, wrapping)
+│       ├── models.py    - Pydantic configuration models
+│       └── prompts.py   - LLM prompt templates
+└── model/               - Shared data models
+
+frontend/                - Frontend app (minimal/in development)
 ```
 
-### Supporting Files
+## Architectural Layers (Request Flow)
 
-- `backend/.env` - Environment variables (GCP credentials, region)
+```
+HTTP Request
+    ↓
+1. Router Layer (routers/) - Parse request, validate input
+    ↓
+2. Service Layer (service/) - Orchestrate business logic
+    ↓
+3. Inference Layer (inference/) - Call LLM for parameters
+    ↓
+4. Engine Layer (engine/) - Generate pattern via math
+    ↓
+5. Response - Return SVG
+```
+
+## Layer Responsibilities
+
+### Routers (`routers/`)
+- HTTP endpoint definitions
+- Request/response serialization
+- No business logic
+
+### Services (`service/`)
+- Coordinate between layers
+- Business logic and workflow
+- Error handling and validation
+
+### Inference (`inference/`)
+- Vertex AI / Gemini API calls
+- Prompt engineering
+- Response parsing
+
+### Engines (`engine/`)
+- Pure mathematical computation
+- No I/O, no external calls
+- Deterministic pattern generation
+
+### Models (`model/`)
+- Pydantic models for validation
+- Shared data structures
+
+## File Naming Conventions
+
+- Services: `*_service.py` (e.g., `pattern_service.py`)
+- Routers: Organized by domain in subdirectories
+- Engines: Each type in own subdirectory with standard files (`engine.py`, `processor.py`, `models.py`, `prompts.py`)
+
+## Configuration Files
+
+- `backend/.env` - Environment variables (GCP_PROJECT_ID, GCP_REGION)
+- `backend/gcp_creds.json` - Service account credentials
 - `backend/requirements.txt` - Python dependencies
-- `backend/gcp_creds.json` - Google Cloud Platform service account credentials
-- `backend/sample_patterns/` - Generated SVG output samples
-- `backend/webserviceVenv/` - Python virtual environment
+- `backend/sample_patterns/` - Generated SVG examples
 
-## Architectural Layers
+## Adding New Pattern Engines
 
-1. **Router Layer** (`routers/`) - HTTP endpoints and request handling
-2. **Service Layer** (`service/`) - Business logic orchestration
-3. **Inference Layer** (`inference/`) - AI model communication
-4. **Engine Layer** (`engine/`) - Mathematical pattern generation
-5. **Model Layer** (`model/`) - Data structures and validation
-
-## Code Organization Conventions
-
-- Use async/await for all I/O operations (database, AI calls)
-- Pydantic models for data validation and JSON schema generation
-- Separate concerns: routers handle HTTP, services handle logic, engines handle math
-- Each engine type (fractal, parametric, tessellation) gets its own subdirectory
-- Configuration and credentials isolated in `config/` and `.env`
-
-## Import Patterns
-
-- Relative imports within app: `from app.service.pattern_service import PatternService`
-- Router registration in `main.py` with URL prefix
-- Environment variables loaded via `python-dotenv` in `main.py`
+When creating a new pattern type:
+1. Create subdirectory under `engine/` (e.g., `engine/parametric_engine/`)
+2. Implement standard files:
+   - `engine.py` - Core generation algorithm
+   - `processor.py` - SVG post-processing
+   - `models.py` - Pydantic config models
+   - `prompts.py` - LLM prompt templates
+3. Register in service layer
+4. Add router endpoint if needed

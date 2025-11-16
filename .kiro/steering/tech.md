@@ -1,54 +1,65 @@
-# Technology Stack
+---
+inclusion: always
+---
 
-## Backend
+# Technology Stack & Conventions
 
-- **Framework**: FastAPI (Python web framework)
-- **Language**: Python 3.x
-- **Database**: PostgreSQL with asyncpg and SQLAlchemy (async ORM)
-- **AI/ML**: Google Vertex AI with Gemini 2.0 Flash model
-- **SVG Generation**: svgwrite library
-- **Geometry**: shapely, numpy for mathematical computations
+## Backend Stack
 
-## Key Libraries
+- **Framework**: FastAPI (Python 3.x)
+- **Database**: PostgreSQL with asyncpg + SQLAlchemy (async ORM)
+- **AI/ML**: Google Vertex AI - Gemini 2.0 Flash model
+- **SVG/Math**: svgwrite, shapely, numpy
 
-- `fastapi` - Web framework with automatic API documentation
-- `uvicorn` - ASGI server
+## Critical Libraries
+
+- `fastapi` + `uvicorn` - Web framework and ASGI server
 - `sqlalchemy` - Async database ORM
-- `pydantic` - Data validation and settings management
-- `google-genai` / `vertexai` - Google AI integration
-- `svgwrite` - SVG file generation
-- `python-dotenv` - Environment variable management
+- `pydantic` - Data validation and JSON schema
+- `vertexai` / `google-genai` - Google AI SDK
+- `python-dotenv` - Environment configuration
 
-## Frontend
-
-- Located in `frontend/` directory (currently empty/minimal)
-
-## Common Commands
-
-### Development
+## Development Commands
 
 ```bash
-# Run backend development server with auto-reload
+# Start backend dev server (from backend/ directory)
 uvicorn app.main:app --reload
 
-# Run from backend directory
-cd backend
-uvicorn app.main:app --reload
+# API docs available at http://localhost:8000/docs
+# API prefix: /ts (e.g., /ts/pattern)
 ```
 
-### Environment Setup
+## Environment Configuration
 
-- Backend requires `.env` file with `GCP_PROJECT_ID` and `GCP_REGION`
-- Virtual environment: `backend/webserviceVenv/`
+Required in `backend/.env`:
+- `GCP_PROJECT_ID` - Google Cloud project ID
+- `GCP_REGION` - GCP region for Vertex AI
+- Service account credentials: `backend/gcp_creds.json`
 
-### API Documentation
+## Code Style & Patterns
 
-- FastAPI auto-generates docs at `/docs` endpoint
-- API prefix: `/ts` (e.g., `/ts/pattern`)
+### Async-First
+- **Always use async/await** for I/O operations (database, AI calls, file operations)
+- All service methods should be async
+- Database queries use SQLAlchemy async sessions
 
-## Architecture Patterns
+### Layered Architecture
+- **Routers** (`routers/`) - HTTP endpoints, request/response handling only
+- **Services** (`service/`) - Business logic orchestration, no HTTP concerns
+- **Inference** (`inference/`) - AI model communication layer
+- **Engines** (`engine/`) - Pure mathematical computation, no I/O
+- **Models** (`model/`) - Pydantic models for validation
 
-- **Service Layer Pattern**: Business logic in `service/` modules
-- **Router Pattern**: API endpoints organized in `routers/` (similar to Flask Blueprints)
-- **Engine Pattern**: Mathematical computation engines in `engine/` subdirectories
-- **Async/Await**: All database operations and AI calls use async patterns
+### Data Validation
+- Use Pydantic models for all API inputs/outputs
+- Engine configurations defined as Pydantic models in `engine/*/models.py`
+- Leverage FastAPI's automatic validation and OpenAPI schema generation
+
+### Import Conventions
+- Absolute imports from app root: `from app.service.pattern_service import PatternService`
+- Router registration in `main.py` with URL prefix
+- Load environment variables in `main.py` using `python-dotenv`
+
+### Engine Organization
+- Each pattern type gets its own subdirectory under `engine/`
+- Structure: `engine.py` (core algorithm), `processor.py` (post-processing), `models.py` (config), `prompts.py` (AI templates)

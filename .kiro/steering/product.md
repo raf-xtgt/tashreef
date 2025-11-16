@@ -1,22 +1,34 @@
-# Product Overview
+---
+inclusion: always
+---
 
-Tashreef is an AI-powered geometric pattern generation engine for creating e-invitation cards with intricate mathematical designs inspired by ancient architectural patterns found in mosques, churches, and palaces.
+# Tashreef: AI-Powered Geometric Pattern Generation
 
-## Core Concept
+## Product Purpose
 
-Unlike traditional AI image generation that iterates on training data, Tashreef uses mathematical equations and geometric concepts to generate patterns. The system bridges AI reasoning with mathematical engines to create SVG-based patterns.
+Tashreef generates e-invitation cards with intricate mathematical patterns inspired by ancient architectural designs (mosques, churches, palaces). The system uses **mathematical equations**, not image generation AI, to create precise SVG-based geometric patterns.
 
-## Key Features
+## Core Architecture
 
-- AI-powered pattern generation using mathematical equations (not image generation)
-- Three pattern generation engines: Parametric Equations (Spirograph), L-Systems (Fractal), and Tessellations (Islamic Pattern)
-- Client-side customizable SVG outputs with dynamic dimensions and color schemes
-- E-invitation card generation with placeholder content
+**AI + Math Hybrid Approach**: LLM generates mathematical parameters → Mathematical engines compute patterns → SVG output
 
-## User Flow
+### Pattern Generation Engines
 
-1. User provides a prompt describing their desired e-invitation card
-2. LLM (Gemini 2.0 Flash) generates a pattern configuration JSON with mathematical parameters
-3. Mathematical engine generates the pattern SVG using the configuration
-4. Pattern processor creates repeating background patterns
-5. Final SVG is rendered as a draft e-invitation card ready for user customization
+1. **Parametric Equations** - Spirograph-style curves
+2. **L-Systems (Fractal)** - Recursive fractal patterns using turtle graphics
+3. **Tessellations** - Islamic geometric tiling patterns
+
+## Generation Pipeline
+
+1. User submits natural language prompt for e-invitation design
+2. Gemini 2.0 Flash LLM interprets prompt → outputs JSON configuration with mathematical parameters
+3. Appropriate engine generates base pattern SVG from configuration
+4. Pattern processor creates repeating/tiled backgrounds
+5. Final SVG card rendered with pattern background + placeholder content
+
+## Key Constraints
+
+- Output format is always SVG (vector graphics)
+- Patterns are mathematically generated, not AI-image-generated
+- Client-side customization: dimensions, colors, text content
+- No raster images - pure geometric computation
