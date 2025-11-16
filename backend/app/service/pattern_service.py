@@ -6,12 +6,14 @@ from app.engine.fractal_engine.models import *
 from app.engine.fractal_engine.processor import (process_fractal_request)
 from app.engine.fractal_engine.card_generator import generate_card
 import json
+from app.engine.fractal_engine.prompts import SYSTEM_PROMPT
 
 service = InferenceService()
 class PatternService:
     async def generate_pattern(self, user_prompt:str ,  db: AsyncSession) -> CardResponse:
+        full_prompt = f"{SYSTEM_PROMPT}\n\n---\nUSER PROMPT:\n{user_prompt}"
 
-        ai_config = await service._generate_structured_content(user_prompt, LSystemConfig)
+        ai_config = await service._generate_structured_content(full_prompt, LSystemConfig)
         if ai_config and isinstance(ai_config, LSystemConfig):
             print("\nSuccessfully parsed AI config.")
             
