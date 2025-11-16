@@ -35,8 +35,8 @@
     - Import appropriate engine prompt based on engine_type
     - _Requirements: 1.3_
 
-- [ ] 4. Implement parametric engine
-  - [ ] 4.1 Create parametric engine models
+- [x] 4. Implement parametric engine
+  - [x] 4.1 Create parametric engine models
     - Create `backend/app/engine/parametric_engine/models.py`
     - Define EquationTypeEnum (rose, lissajous, epitrochoid, hypotrochoid)
     - Define ParametricParams Pydantic model with all parameters
@@ -44,13 +44,13 @@
     - Define ParametricResponse Pydantic model
     - _Requirements: 4.1, 4.2, 8.1_
   
-  - [ ] 4.2 Create parametric engine prompt
+  - [x] 4.2 Create parametric engine prompt
     - Create `backend/app/engine/parametric_engine/prompts.py`
     - Define PARAMETRIC_PROMPT with instructions and examples
     - Include all four equation types with parameter examples
     - _Requirements: 4.1_
   
-  - [ ] 4.3 Implement parametric equation generators
+  - [x] 4.3 Implement parametric equation generators
     - Create `backend/app/engine/parametric_engine/engine.py`
     - Implement `generate_rose_curve()` function
     - Implement `generate_lissajous_curve()` function
@@ -60,7 +60,7 @@
     - Convert generated points to SVG path data
     - _Requirements: 4.1, 4.3, 8.2, 8.3, 8.4, 8.5_
   
-  - [ ] 4.4 Implement parametric pattern processor
+  - [x] 4.4 Implement parametric pattern processor
     - Create `backend/app/engine/parametric_engine/processor.py`
     - Implement `build_parametric_pattern_svg()` function for repeating background
     - Implement `process_parametric_request()` orchestration function
