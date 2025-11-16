@@ -10,7 +10,7 @@ export default function CardDisplay() {
         /* This parent container is tall, provides vertical centering (items-center) 
           and prevents any overflow (overflow-hidden) 
         */
-        <div className="h-[calc(100%-4rem)] flex items-center justify-center p-4 bg-slate-50 overflow-hidden">
+        <div className="h-[calc(100%-4rem)] flex items-center justify-center  overflow-hidden mt-5">
             {cardResponse?.card_svg ? (
                 /* This is the card itself. We removed the extra wrapper.
                   It is set to w-full (to fill the parent's width).
@@ -23,7 +23,7 @@ export default function CardDisplay() {
                       2. [&>svg]:w-full: The SVG element inside fills its container's width.
                       3. [&>svg]:h-auto: The SVG's height adjusts automatically to maintain its aspect ratio.
                     */
-                    className="w-full [&>svg]:w-full [&>svg]:h-auto rounded-lg shadow-xl border border-slate-200 bg-white p-2"
+                    className="w-full [&>svg]:w-full [&>svg]:h-200 m-5  bg-white p-2"
                 />
             ) : (
                 <div className="text-center">
