@@ -6,14 +6,14 @@
   - Add proper field descriptions and validation
   - _Requirements: 3.1, 3.2_
 
-- [ ] 2. Implement engine router for classification
-  - [ ] 2.1 Create router module and classification function
+- [x] 2. Implement engine router for classification
+  - [x] 2.1 Create router module and classification function
     - Create `backend/app/inference/engine_router.py`
     - Implement `classify_engine(user_prompt: str) -> EngineTypeEnum` async function
     - Define ROUTER_SYSTEM_PROMPT with classification rules and examples
     - _Requirements: 2.1, 2.2, 3.3_
   
-  - [ ] 2.2 Implement router logic with error handling
+  - [x] 2.2 Implement router logic with error handling
     - Build full prompt combining ROUTER_SYSTEM_PROMPT and user prompt
     - Call inference service with EngineChoice schema for structured output
     - Return selected engine_type from EngineChoice response

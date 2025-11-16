@@ -5,7 +5,7 @@ import uuid
 import json
 from app.config.db_config import get_db
 from app.service.pattern_service import PatternService
-from app.model.prompt import TashreefPrompt
+from app.model.api_dto import TashreefPrompt
 
 router = APIRouter(
     prefix="/pattern",  
